@@ -31,25 +31,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </ul>
 
       <!-- SEARCH FORM -->
-
       <?php
         $link = $_SERVER['PHP_SELF'];
         $arrayLink = explode('/', $link);
         $page = end($arrayLink);
 
-
-        $action = "index.php"; // default for product
-        if ($page == 'category.php') {
-            $action = "category.php";
-        } elseif ($page == 'user_list.php') {
-            $action = "user_list.php";
-        }
-      ?>
-
+        if ($page != 'order_list.php') { 
+          $action = "index.php"; // default for product
+            if ($page == 'category.php') {
+                $action = "category.php";
+            } elseif ($page == 'user_list.php') {
+                $action = "user_list.php";
+            }
+        ?>
       <form class="form-inline ml-3" method="post" action="<?php echo $action; ?>">
 
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-        
+
         <div class="input-group input-group-sm">
           <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -59,6 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </form>
+      <?php } ?>
     </nav>
     <!-- /.navbar -->
 
@@ -90,12 +89,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="index.php" class="nav-link">
-                  <i class="nav-icon fas fa-blog"></i>
-                  <p>
-                    Products
-                  </p>
-                </a>
+                  <a href="index.php" class="nav-link">
+                    <i class="nav-icon fas fa-shopping-bag"></i>
+                    <p>
+                      Products
+                    </p>
+                  </a>
               </li>
               <li class="nav-item">
                 <a href="category.php" class="nav-link">
@@ -113,7 +112,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a href="order_list.php" class="nav-link">
+                  <i class="nav-icon fas fa-clipboard-list"></i>
+                  <p>
+                    Orders
+                  </p>
+                </a>
+              </li>
             </ul>
           </nav>
           <!-- /.sidebar-menu -->
