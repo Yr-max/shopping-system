@@ -89,6 +89,10 @@ include('header.php');
                     $userStmt = $db->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
                     $userStmt->execute();
                     $userResust = $userStmt->fetchAll();
+
+                    // print("<pre>");
+                    // print_r($userResust);
+                    // exit();
                   ?>
                   <tr>
                     <td><?php echo $i; ?></td>

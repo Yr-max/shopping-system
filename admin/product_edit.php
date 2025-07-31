@@ -56,6 +56,7 @@ if ($_POST)
       echo "<script>alert('Image type must be jpg, png, jpeg');</script>";
     }else {//image validation success
 
+      $id = $_POST['id'];
       $name = $_POST['name'];
       $description = $_POST['description'];
       $category_id = $_POST['category']; // to get category id
@@ -66,14 +67,15 @@ if ($_POST)
       move_uploaded_file($_FILES['image']['tmp_name'], $file);
 
       $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
-                      category_id=:category_id, quantity=:quantity, price=:price, image=:image");
+                      category_id=:category_id, quantity=:quantity, price=:price, image=:image WHERE id=:id");
       $result = $stmt->execute(array(
         ':name'=>$name,
         ':description'=>$description,
         ':category_id'=>$category_id,
         ':quantity'=>$quantity,
         ':price'=>$price,
-        ':image'=>$image
+        ':image'=>$image,
+        ':id'=>$id
       ));
 
       if ($result) {
@@ -84,6 +86,7 @@ if ($_POST)
   }
     }else {
 
+      $id = $_POST['id'];
       $name = $_POST['name'];
       $description = $_POST['description'];
       $category_id = $_POST['category']; // to get category id
@@ -91,13 +94,14 @@ if ($_POST)
       $price = $_POST['price'];
 
       $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
-                      category_id=:category_id, quantity=:quantity, price=:price");
+                      category_id=:category_id, quantity=:quantity, price=:price WHERE id=:id");
       $result = $stmt->execute(array(
         ':name'=>$name,
         ':description'=>$description,
         ':category_id'=>$category_id,
         ':quantity'=>$quantity,
-        ':price'=>$price
+        ':price'=>$price,
+        ':id'=>$id
       ));
 
       if ($result) {
