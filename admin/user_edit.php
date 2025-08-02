@@ -16,10 +16,16 @@ if ($_SESSION['role'] != 1) {
 
 
 if ($_POST) {
-  if (empty($_POST['name']) || empty($_POST['email'])) {
+  if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['address'])) {
     
     if (empty($_POST['name'])) {
       $nameError = 'Name field is require';
+    }
+    if (empty($_POST['phone'])) {
+      $phoneError = 'Phone Number field is require';
+    }
+    if (empty($_POST['address'])) {
+      $addressError = 'Address field is require';
     }
     if (empty($_POST['email'])) {
       $emailError = 'Email field is require';
@@ -32,6 +38,8 @@ if ($_POST) {
     $id = $_GET['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
     $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
     $role = empty($_POST['role']) ? 0 : 1;
 
@@ -47,9 +55,9 @@ if ($_POST) {
     }else {
       // update get_data into user table 
       if ($password != null) {
-          $stmt = $db->prepare("UPDATE users SET name='$name', email='$email', password='$password', role='$role' WHERE id='$id'");
+          $stmt = $db->prepare("UPDATE users SET name='$name', email='$email', phone='$phone', address='$address', password='$password', role='$role' WHERE id='$id'");
       }else {
-        $stmt = $db->prepare("UPDATE users SET name='$name', email='$email', role='$role' WHERE id='$id'");
+        $stmt = $db->prepare("UPDATE users SET name='$name', email='$email',address='$address', phone='$phone', role='$role' WHERE id='$id'");
       }
       $result = $stmt->execute();
 
@@ -104,6 +112,16 @@ $result = $stmt->fetchAll();
                 <label>Email</label>
                 <p style="color: red;"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
                 <input class="form-control" type="email" name="email" value="<?php echo escape($result[0]['email']); ?>" >
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <p style="color: red;"><?php echo empty($phoneError) ? '' : '*'.$phoneError; ?></p>
+                <input class="form-control" type="text" name="phone" value="<?php echo escape($result[0]['phone']); ?>" >
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <p style="color: red;"><?php echo empty($addressError) ? '' : '*'.$addressError; ?></p>
+                <input class="form-control" type="text" name="address" value="<?php echo escape($result[0]['address']); ?>" >
               </div>
               <div class="form-group">
                 <label>Password</label>

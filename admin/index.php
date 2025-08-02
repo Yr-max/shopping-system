@@ -65,8 +65,8 @@ include('header.php');
             $result = $stmt->fetchAll();
           }else {
 
-            $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
-            // Display data from posts table 
+            $searchKey = isset($_POST['search']) ? $_POST['search'] : (isset($_COOKIE['search']) ? $_COOKIE['search'] : '');
+            // Display data from products table 
             $stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
             $stmt->execute();
             $rawResult = $stmt->fetchAll();

@@ -59,7 +59,7 @@ if ($_POST) {
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="" method="post">
+      <form action="login.php" method="post">
         <!-- Check CSRF -->
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
         <div class="input-group mb-3">

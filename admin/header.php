@@ -36,13 +36,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $arrayLink = explode('/', $link);
         $page = end($arrayLink);
 
-        if ($page != 'order_list.php') { 
-          $action = "index.php"; // default for product
+        if ($page == 'index.php' || $page == 'category.php' || $page == 'user_list.php') {
+
+          if ($page != 'order_list.php') { 
+            $action = "index.php"; // default for product
             if ($page == 'category.php') {
                 $action = "category.php";
             } elseif ($page == 'user_list.php') {
                 $action = "user_list.php";
             }
+        }
         ?>
       <form class="form-inline ml-3" method="post" action="<?php echo $action; ?>">
 
@@ -57,7 +60,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </form>
+
       <?php } ?>
+      
     </nav>
     <!-- /.navbar -->
 

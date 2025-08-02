@@ -54,7 +54,7 @@ include('header.php');
 
           // for search function
           if (empty($_POST['search']) && empty($_COOKIE['search'])) {
-              // Display data from posts table 
+              // Display data from categories table 
             $stmt = $db->prepare("SELECT * FROM categories ORDER BY id DESC");
             $stmt->execute();
             $rawResult = $stmt->fetchAll();
@@ -65,8 +65,8 @@ include('header.php');
             $result = $stmt->fetchAll();
           }else {
 
-            $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
-            // Display data from posts table 
+            $searchKey = isset($_POST['search']) ? $_POST['search'] : (isset($_COOKIE['search']) ? $_COOKIE['search'] : '');
+            // Display data from categories table 
             $stmt = $db->prepare("SELECT * FROM categories WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
             $stmt->execute();
             $rawResult = $stmt->fetchAll();

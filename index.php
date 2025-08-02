@@ -1,9 +1,21 @@
+<?php
+
+if (isset($_POST['search']) && $_POST['search'] != '') {
+	  setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
+	} else {
+	  if (empty($_GET['page-no'])) {
+	    unset($_COOKIE['search']);
+	    setcookie('search', null, -1, '/');
+	  }
+	}
+
+?>
+
 <?php include('header.php') ?>
 
 <?php
 	
 	require 'config/config.php';
-
 
     // offset function
   if (!empty($_GET['page-no'])) {
@@ -12,7 +24,7 @@
     $page_no = 1;
   }
 
-  $numOfrecord = 6;
+  $numOfrecord = 1;
   $offset = ($page_no -1) * $numOfrecord;
 
   // for search function
@@ -28,7 +40,7 @@
     $result = $stmt->fetchAll();
   }else {
 
-    $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+    $searchKey = isset($_POST['search']) ? $_POST['search'] : (isset($_COOKIE['search']) ? $_COOKIE['search'] : '');
     // Display data from product table 
     $stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
     $stmt->execute();

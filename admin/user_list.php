@@ -66,7 +66,7 @@ include('header.php');
             $result = $stmt->fetchAll();
           }else {
 
-            $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+            $searchKey = isset($_POST['search']) ? $_POST['search'] : (isset($_COOKIE['search']) ? $_COOKIE['search'] : '');
             // Display data from user table 
             $stmt = $db->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
             $stmt->execute();
