@@ -17,6 +17,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- DataTables CSS and JS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -32,74 +34,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- SEARCH FORM -->
       <?php
-        $link = $_SERVER['PHP_SELF'];
-        $arrayLink = explode('/', $link);
-        $page = end($arrayLink);
+      $link = $_SERVER['PHP_SELF'];
+      $arrayLink = explode('/', $link);
+      $page = end($arrayLink);
 
-        if ($page == 'index.php' || $page == 'category.php' || $page == 'user_list.php') {
+      if ($page == 'index.php' || $page == 'category.php' || $page == 'user_list.php') {
 
-          if ($page != 'order_list.php') { 
+        if ($page != 'order_list.php' && $page != 'weekly_report.php' && $page != 'monthly_report.php' && $page != 'royal_user.php' && $page != 'best_seller.php') { 
+          
             $action = "index.php"; // default for product
             if ($page == 'category.php') {
-                $action = "category.php";
+              $action = "category.php";
             } elseif ($page == 'user_list.php') {
-                $action = "user_list.php";
+              $action = "user_list.php";
             }
-        }
-        ?>
-      <form class="form-inline ml-3" method="post" action="<?php echo $action; ?>">
+          }
+          ?>
+          <form class="form-inline ml-3" method="post" action="<?php echo $action; ?>">
 
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 
-        <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-navbar" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+        <?php } ?>
+
+      </nav>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <aside class="main-sidebar sidebar-dark-primary elevation-4" style="margin-bottom:0 !important;">
+        <!-- Brand Logo -->
+        <a href="index3.html" class="brand-link">
+          <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+          <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
+          <span class="brand-text font-weight-light"> Shop Admin Pannel</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <!-- Sidebar user panel (optional) -->
+          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+              <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="index.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
+            </div>
           </div>
-        </div>
-      </form>
 
-      <?php } ?>
-
-    </nav>
-    <!-- /.navbar -->
-
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4" style="margin-bottom:0 !important;">
-      <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-        style="opacity: .8">
-        <!-- <i class="nav-icon fas fa-tachometer-alt"></i> -->
-        <span class="brand-text font-weight-light"> Shop Admin Pannel</span>
-      </a>
-
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="index.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
-          </div>
-        </div>
-
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Sidebar Menu -->
+          <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                  <a href="index.php" class="nav-link">
-                    <i class="nav-icon fas fa-shopping-bag"></i>
-                    <p>
-                      Products
-                    </p>
-                  </a>
+                <a href="index.php" class="nav-link">
+                  <i class="nav-icon fas fa-shopping-bag"></i>
+                  <p>
+                    Products
+                  </p>
+                </a>
               </li>
               <li class="nav-item">
                 <a href="category.php" class="nav-link">
@@ -124,6 +127,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     Orders
                   </p>
                 </a>
+              </li>
+              <li class="nav-item has-treeview menu">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i> 
+                  <p>
+                    Reports
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="weekly_report.php" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Weekly Report</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="monthly_report.php" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i> 
+                      <p>Monthly Report</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="royal_user.php" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Royal Customers</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="best_seller.php" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i> 
+                      <p>Best Seller Items</p>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </nav>
