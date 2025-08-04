@@ -38,19 +38,17 @@ include('header.php');
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Monthly Reports</h3>
+            <h3 class="card-title">Royal Customers</h3>
           </div>
           <!-- /.card-header -->
           <?php
 
-            // $currentDate = date('Y-m-d');
-          $fromDate = date('Y-m-d', strtotime('+1 day'));
-          $toDate = date('Y-m-d', strtotime('-1 month'));
+          $currentDate = date('Y-m-d');
 
             // Display data from sale order table 
-          $stmt = $db->prepare("SELECT * FROM sale_orders WHERE order_date<:from_date AND order_date>=:to_date ORDER BY id DESC");
+          $stmt = $db->prepare("SELECT * FROM sale_orders WHERE total_price>=300000 ORDER BY id DESC");
 
-          $stmt->execute(array(':from_date' =>$fromDate, ':to_date' =>$toDate ));
+          $stmt->execute();
           $result = $stmt->fetchAll();
 
           ?>

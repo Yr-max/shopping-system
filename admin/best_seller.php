@@ -38,19 +38,19 @@ include('header.php');
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Monthly Reports</h3>
+            <h3 class="card-title">Best Sell Items</h3>
+            <br>
+            <p>Items which are sold above 5:</p>
           </div>
           <!-- /.card-header -->
           <?php
 
-            // $currentDate = date('Y-m-d');
-          $fromDate = date('Y-m-d', strtotime('+1 day'));
-          $toDate = date('Y-m-d', strtotime('-1 month'));
+          $currentDate = date('Y-m-d');
 
             // Display data from sale order table 
-          $stmt = $db->prepare("SELECT * FROM sale_orders WHERE order_date<:from_date AND order_date>=:to_date ORDER BY id DESC");
+          $stmt = $db->prepare("SELECT * FROM sale_order_details GROUP BY product_id HAVING SUM(quantity) > 5 ORDER BY id DESC");
 
-          $stmt->execute(array(':from_date' =>$fromDate, ':to_date' =>$toDate ));
+          $stmt->execute();
           $result = $stmt->fetchAll();
 
           ?>
@@ -59,10 +59,8 @@ include('header.php');
             <table id="d-table" class="table table-bordered display">
               <thead>
                 <tr>
-                  <th style="width: 10px">#</th>
-                  <th>User ID</th>
-                  <th>Total Amount</th>
-                  <th>Order Date</th>
+                  <th style="width: 30px">#</th>
+                  <th>Products</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,16 +71,13 @@ include('header.php');
                 foreach ($result as $value) {
                   ?>
                   <?php
-                    // to get user name
-                    $userStmt = $db->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
-                    $userStmt->execute();
-                    $userResust = $userStmt->fetchAll();
+                    $stmt = $db->prepare("SELECT * FROM products WHERE id=".$value['product_id']);
+                    $stmt->execute();
+                    $resust = $stmt->fetchAll();
                   ?>
                   <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo escape($userResust[0]['name']); ?></td>
-                    <td><?php echo escape($value['total_price']); ?></td>
-                    <td><?php echo escape(date('Y-m-d', strtotime($value['order_date']))); ?></td>
+                    <td><?php echo escape($resust[0]['name']); ?></td>
                   </tr>
 
                     <?php
