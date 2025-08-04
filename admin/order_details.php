@@ -49,7 +49,7 @@ include('header.php');
             $page_no = 1;
           }
 
-          $numOfrecord = 5;
+          $numOfrecord = 1;
           $offset = ($page_no -1) * $numOfrecord;
 
             //to get sale orders details data
@@ -105,15 +105,15 @@ include('header.php');
               <a href="order_list.php" class="btn btn-info">Back</a>
               <nav aria-label="Page navigation example">
                 <ul class="pagination mb-0">
-                  <li class="page-item"><a class="page-link" href="?page-no=1">First</a></li>
+                  <li class="page-item"><a class="page-link" href="?id=<?php echo $_GET['id']?>&page-no=1">First</a></li>
                   <li class="page-item <?php if ($page_no <= 1) echo 'disabled'; ?>">
-                    <a class="page-link" href="<?php echo ($page_no <= 1) ? '#' : '?page-no=' . ($page_no - 1); ?>">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#"><?php echo $page_no; ?></a></li>
+                    <a class="page-link" href="<?php echo ($page_no <= 1) ? '#' : '?id=' . $_GET['id'] . '&page-no=' . ($page_no - 1); ?>">Previous</a>
+                  </li>
+                    <li class="page-item"><a class="page-link" href="#"><?php echo $page_no; ?></a></li>  
                     <li class="page-item <?php if ($page_no >= $total_pages) echo 'disabled'; ?>">
-                      <a class="page-link" href="<?php echo ($page_no >= $total_pages) ? '#' : '?page-no=' . ($page_no + 1); ?>">Next</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="?page-no=<?php echo $total_pages; ?>">Last</a></li>
+                    <a class="page-link" href="<?php echo ($page_no >= $total_pages) ? '#' : '?id=' . $_GET['id'] . '&page-no=' . ($page_no + 1); ?>">Next</a>
+                  </li>
+                    <li class="page-item"><a class="page-link" href="?id=<?php echo $_GET['id']?>&page-no=<?php echo $total_pages; ?>">Last</a></li>
                   </ul>
                 </nav>
               </div>

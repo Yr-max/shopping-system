@@ -45,35 +45,45 @@ if ($_POST)
       $imageError = "Image field is require";
     }
   }else {
-    $file = 'images/'.($_FILES['image']['name']);
-    $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
-    if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
-      echo "<script>alert('Image type must be jpg, png, jpeg');</script>";
-    }else {//image validation success
+    if (is_numeric($_POST['quantity']) != 1) {
+      $qtyError = "Quantity field is must be integer";
+    }
+    if (is_numeric($_POST['price']) != 1) {
+      $priceError = "Price field is must be integer";
+    }
 
-      $name = $_POST['name'];
-      $description = $_POST['description'];
-      $category_id = $_POST['category']; // to get category id
-      $quantity = $_POST['quantity'];
-      $price = $_POST['price'];
-      $image = $_FILES['image']['name'];
+    if ($qtyError == '' && $priceError == '') {
+      $file = 'images/'.($_FILES['image']['name']);
+      $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
-      move_uploaded_file($_FILES['image']['tmp_name'], $file);
+      if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
+        echo "<script>alert('Image type must be jpg, png, jpeg');</script>";
+      }else {//image validation success
 
-      $stmt = $db->prepare("INSERT INTO products (name,description,category_id,quantity,price,image) VALUES (:name,:description,:category_id,:quantity,:price,:image)");
-      $result = $stmt->execute(array(':name'=>$name,
-        ':description'=>$description,
-        ':category_id'=>$category_id,
-        ':quantity'=>$quantity,
-        ':price'=>$price,
-        ':image'=>$image
-      ));
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $category_id = $_POST['category']; // to get category id
+        $quantity = $_POST['quantity'];
+        $price = $_POST['price'];
+        $image = $_FILES['image']['name'];
 
-      if ($result) {
-        echo "<script>alert('New Product is successfully added');
-        window.location.href='index.php';
-        </script>";
+        move_uploaded_file($_FILES['image']['tmp_name'], $file);
+
+        $stmt = $db->prepare("INSERT INTO products (name,description,category_id,quantity,price,image) VALUES (:name,:description,:category_id,:quantity,:price,:image)");
+        $result = $stmt->execute(array(':name'=>$name,
+          ':description'=>$description,
+          ':category_id'=>$category_id,
+          ':quantity'=>$quantity,
+          ':price'=>$price,
+          ':image'=>$image
+        ));
+
+        if ($result) {
+          echo "<script>alert('New Product is successfully added');
+          window.location.href='index.php';
+          </script>";
+        }
       }
     }
   }

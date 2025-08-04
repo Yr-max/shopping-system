@@ -46,70 +46,81 @@ if ($_POST)
     }
   }else {
 
-    //validate image to update
-    if ($_FILES['image']['name'] != null) {
 
-      $file = 'images/'.($_FILES['image']['name']);
-      $imageType = pathinfo($file,PATHINFO_EXTENSION);
+    if (is_numeric($_POST['quantity']) != 1) {
+      $qtyError = "Quantity field is must be integer";
+    }
+    if (is_numeric($_POST['price']) != 1) {
+      $priceError = "Price field is must be integer";
+    }
 
-    if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
-      echo "<script>alert('Image type must be jpg, png, jpeg');</script>";
-    }else {//image validation success
+    if ($qtyError == '' && $priceError == '') {
+        //validate image to update
+      if ($_FILES['image']['name'] != null) {
 
-      $id = $_POST['id'];
-      $name = $_POST['name'];
-      $description = $_POST['description'];
-      $category_id = $_POST['category']; // to get category id
-      $quantity = $_POST['quantity'];
-      $price = $_POST['price'];
-      $image = $_FILES['image']['name'];
+        $file = 'images/'.($_FILES['image']['name']);
+        $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
-      move_uploaded_file($_FILES['image']['tmp_name'], $file);
+      if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
+        echo "<script>alert('Image type must be jpg, png, jpeg');</script>";
+      }else {//image validation success
 
-      $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
-                      category_id=:category_id, quantity=:quantity, price=:price, image=:image WHERE id=:id");
-      $result = $stmt->execute(array(
-        ':name'=>$name,
-        ':description'=>$description,
-        ':category_id'=>$category_id,
-        ':quantity'=>$quantity,
-        ':price'=>$price,
-        ':image'=>$image,
-        ':id'=>$id
-      ));
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $category_id = $_POST['category']; // to get category id
+        $quantity = $_POST['quantity'];
+        $price = $_POST['price'];
+        $image = $_FILES['image']['name'];
 
-      if ($result) {
-        echo "<script>alert('Product is successfully updated');
-        window.location.href='index.php';
-        </script>";
-      }
-  }
-    }else {
+        move_uploaded_file($_FILES['image']['tmp_name'], $file);
 
-      $id = $_POST['id'];
-      $name = $_POST['name'];
-      $description = $_POST['description'];
-      $category_id = $_POST['category']; // to get category id
-      $quantity = $_POST['quantity'];
-      $price = $_POST['price'];
+        $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
+                        category_id=:category_id, quantity=:quantity, price=:price, image=:image WHERE id=:id");
+        $result = $stmt->execute(array(
+          ':name'=>$name,
+          ':description'=>$description,
+          ':category_id'=>$category_id,
+          ':quantity'=>$quantity,
+          ':price'=>$price,
+          ':image'=>$image,
+          ':id'=>$id
+        ));
 
-      $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
-                      category_id=:category_id, quantity=:quantity, price=:price WHERE id=:id");
-      $result = $stmt->execute(array(
-        ':name'=>$name,
-        ':description'=>$description,
-        ':category_id'=>$category_id,
-        ':quantity'=>$quantity,
-        ':price'=>$price,
-        ':id'=>$id
-      ));
+        if ($result) {
+          echo "<script>alert('Product is successfully updated');
+          window.location.href='index.php';
+          </script>";
+        }
+    }
+      }else {
 
-      if ($result) {
-        echo "<script>alert('Product is successfully updated');
-        window.location.href='index.php';
-        </script>";
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $category_id = $_POST['category']; // to get category id
+        $quantity = $_POST['quantity'];
+        $price = $_POST['price'];
+
+        $stmt = $db->prepare("UPDATE products SET name=:name, description=:description, 
+                        category_id=:category_id, quantity=:quantity, price=:price WHERE id=:id");
+        $result = $stmt->execute(array(
+          ':name'=>$name,
+          ':description'=>$description,
+          ':category_id'=>$category_id,
+          ':quantity'=>$quantity,
+          ':price'=>$price,
+          ':id'=>$id
+        ));
+
+        if ($result) {
+          echo "<script>alert('Product is successfully updated');
+          window.location.href='index.php';
+          </script>";
+        }
       }
     }
+
   }
   
 }
