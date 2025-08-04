@@ -1,7 +1,18 @@
 <?php
 
-	session_start();
-	require 'config/common.php';
+session_start();
+require 'config/common.php';
+
+// Control Login Session
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'] )) 
+{
+  header('location: login.php');
+}
+
+if ($_SESSION['role'] != 1) {
+  header('location: login.php');
+}// Control Login Session
+
 
 ?>
 
@@ -94,7 +105,8 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Welcome All</h1>
+					<h1>Welcome <?php echo escape($_SESSION['username']); ?></h1>
+					<a href="logout.php" class="gray_btn" style="color: red; padding: 0 20px !important;">Logout</a>
 
 				</div>
 			</div>

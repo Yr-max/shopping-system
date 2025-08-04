@@ -4,6 +4,17 @@ session_start();
 require 'config/config.php';
 require 'config/common.php';
 
+// Control Login Session
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'] )) 
+{
+  header('location: login.php');
+}
+
+if ($_SESSION['role'] != 1) {
+  header('location: login.php');
+}// Control Login Session
+
+
 if (isset($_SESSION['cart'])) {
 	$userId = $_SESSION['user_id'];
 	$total = 0;
@@ -129,6 +140,9 @@ if (isset($_SESSION['cart'])) {
 				<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 					<div class="col-first">
 						<h1>Confirmation</h1>
+						<nav class="d-flex align-items-center">
+							<a href="index.php">Home<span class="lnr lnr-arrow-right"></span></a>
+						</nav>
 					</div>
 				</div>
 			</div>

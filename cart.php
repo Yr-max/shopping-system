@@ -5,6 +5,21 @@ require 'config/config.php';
 
 ?>
 
+<?php
+
+// Control Login Session
+if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'] )) 
+{
+  header('location: login.php');
+}
+
+if ($_SESSION['role'] != 1) {
+  header('location: login.php');
+}// Control Login Session
+
+
+?>
+
 
 <!--================Cart Area =================-->
 <section class="cart_area">
